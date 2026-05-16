@@ -13,10 +13,8 @@ function configLoad()
 		slide_slope_accel    = cfgFloat("savegame.mod.slide_slope_accel", 15.0),
 		slide_cooldown       = cfgFloat("savegame.mod.slide_cooldown", 0.6),
 		-- wall-bounce
-		bounce_dot_threshold = cfgFloat("savegame.mod.bounce_dot_threshold", 0.7),
-		bounce_force_min     = cfgFloat("savegame.mod.bounce_force_min", 4.0),
-		bounce_force_max     = cfgFloat("savegame.mod.bounce_force_max", 9.0),
-		bounce_upward_kick   = cfgFloat("savegame.mod.bounce_upward_kick", 3.0),
+		bounce_force_max     = cfgFloat("savegame.mod.bounce_force_max", 6.0),
+		bounce_upward_kick   = cfgFloat("savegame.mod.bounce_upward_kick", 4.5),
 		wall_check_distance  = cfgFloat("savegame.mod.wall_check_distance", 1.2),
 	}
 end

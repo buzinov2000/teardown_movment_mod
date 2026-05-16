@@ -6,6 +6,9 @@ local settings = {
 	{key = "slide_duration",    label = "Slide duration",    min = 0.1, max = 2.0, step = 0.1, default = 0.7, fmt = "%.1f"},
 	{key = "slide_slope_accel", label = "Slide slope accel", min = 0.0, max = 40.0, step = 1.0, default = 15.0, fmt = "%.0f"},
 	{key = "slide_cooldown",   label = "Slide cooldown",    min = 0.0, max = 2.0, step = 0.1, default = 0.6, fmt = "%.1f"},
+	{key = "bounce_force_max",     label = "Bounce force",          min = 3.0, max = 20.0, step = 0.5, default = 6.0, fmt = "%.1f"},
+	{key = "bounce_upward_kick",   label = "Bounce upward kick",     min = 1.0, max = 8.0, step = 0.5, default = 4.5, fmt = "%.1f"},
+	{key = "wall_check_distance",  label = "Wall check distance",    min = 0.5, max = 3.0, step = 0.1, default = 1.2, fmt = "%.1f"},
 }
 
 local function getVal(s)
