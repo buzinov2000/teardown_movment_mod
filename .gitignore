@@ -1,0 +1,13 @@
+# Yandex.Disk conflict copies
+*копия с компьютера*
+
+# Docs/API reference (large, not part of the mod)
+Docs/
+
+# Claude Code internals
+.claude/
+
+# OS junk
+Thumbs.db
+desktop.ini
+.DS_Store
