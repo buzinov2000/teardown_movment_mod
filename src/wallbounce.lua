@@ -51,6 +51,10 @@ function wallbounceTick(playerId, input, dt)
 
 	input.jumpPressed = false
 
+	-- Signal bounce event to client
+	shared.bounceEvents = shared.bounceEvents or {}
+	shared.bounceEvents[playerId] = (shared.bounceEvents[playerId] or 0) + 1
+
 	DebugWatch("wb wall", "HIT")
 	DebugWatch("wb tangentSpd", string.format("%.1f", tangentSpeed))
 end

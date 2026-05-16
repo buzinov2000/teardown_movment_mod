@@ -13,6 +13,10 @@ function slideTick(playerId, input, dt)
 		slideCdLeft[playerId] = cd - dt
 	end
 
+	-- Sync slide state to client via shared
+	shared.slideActive = shared.slideActive or {}
+	shared.slideActive[playerId] = s ~= nil
+
 	-- Active slide: tick down timer + slope boost
 	if s then
 		s.timeLeft = s.timeLeft - dt
