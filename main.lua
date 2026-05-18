@@ -16,8 +16,17 @@ function server.init()
 	sprintInit()
 end
 
+local cfgReloadTimer = 0
+local CFG_RELOAD_INTERVAL = 1.0
+
 function server.tick(dt)
-	configLoad()
+	-- Throttled config reload: picks up options.lua changes without per-frame cost
+	cfgReloadTimer = cfgReloadTimer + dt
+	if cfgReloadTimer >= CFG_RELOAD_INTERVAL then
+		cfgReloadTimer = 0
+		configLoad()
+	end
+
 	local allPlayers = GetAllPlayers()
 	for i = 1, #allPlayers do
 		local p = allPlayers[i]

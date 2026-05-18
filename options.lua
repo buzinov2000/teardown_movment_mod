@@ -33,6 +33,18 @@ function init()
 end
 
 function draw()
+	-- Only host can change settings in multiplayer
+	if not IsPlayerHost() then
+		UiPush()
+			UiTranslate(UiCenter(), UiMiddle())
+			UiAlign("center middle")
+			UiFont("regular.ttf", 26)
+			UiColor(0.8, 0.8, 0.8)
+			UiText("Settings are controlled by the host")
+		UiPop()
+		return
+	end
+
 	-- Title
 	UiPush()
 		UiTranslate(UiCenter(), 40)

@@ -1,5 +1,5 @@
 name = Quake Movement
 author = iliab
 description = Sprint, air-strafing, slide and angled wall-bounce in Strafetat style.
-tags = Gameplay
-version = 1
+tags = Gameplay, Global
+version = 2
