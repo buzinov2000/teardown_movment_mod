@@ -1,5 +1,5 @@
 name = Quake Movement
 author = iliab
-description = Sprint, air-strafing, slide and angled wall-bounce in Strafetat style.
+description = Adds Quake/Straftat-inspired movement: sprint (hold/toggle/always-on), air-strafing, speed-based slide, wall-jump off any surface, and double jump. Born from wanting faster, skill-based movement in Teardown — started as a learning project and grew from there. All parameters are fully tweakable in mod settings (host controls values in multiplayer). Feedback and ideas welcome — leave a comment! --- Добавляет движение в стиле Quake/Straftat: спринт (три режима), воздушный стрейф, слайд с ускорением от скорости, прыжок от стен и двойной прыжок. Идея появилась потому что не хватало скорости и мувмента как в Quake или Straftat — решил попробовать сделать сам для обучения. Все параметры настраиваются в опциях мода (в мультиплеере настройки контролирует хост). Буду рад обратной связи — пишите в комментариях!
 tags = Gameplay, Global
 version = 2
