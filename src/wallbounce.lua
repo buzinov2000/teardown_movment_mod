@@ -2,8 +2,18 @@
 
 function wallbounceTick(playerId, input, dt)
 	if not input.jumpPressed then return end
-	if not input.sprint then return end
-	if IsPlayerGrounded(playerId) then return end
+
+	-- Allow wall-jump on steep slopes where engine says "grounded"
+	local onSteepSlope = false
+	if IsPlayerGrounded(playerId) then
+		local contact, _, _, groundNormal = GetPlayerGroundContact(playerId)
+		if contact and groundNormal[2] < 0.7 then
+			-- Surface steeper than ~45° — treat as wall, not ground
+			onSteepSlope = true
+		else
+			return
+		end
+	end
 
 	local v = GetPlayerVelocity(playerId)
 	local vH = Vec(v[1], 0, v[3])
@@ -24,7 +34,7 @@ function wallbounceTick(playerId, input, dt)
 
 	for i = 1, #dirs do
 		local hit, dist, normal, shape = QueryRaycast(origin, dirs[i], cfg.wall_check_distance)
-		if hit and math.abs(normal[2]) < 0.3 then
+		if hit and math.abs(normal[2]) < 0.5 then
 			wallNormal = normal
 			break
 		end
@@ -50,6 +60,7 @@ function wallbounceTick(playerId, input, dt)
 	SetPlayerVelocity(Vec(bounceH[1], newVy, bounceH[3]), playerId)
 
 	input.jumpPressed = false
+	doubleJumpOnWalljump(playerId)
 
 	-- Signal bounce event to client
 	shared.bounceEvents = shared.bounceEvents or {}

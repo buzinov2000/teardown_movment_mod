@@ -7,6 +7,7 @@
 #include "src/airstrafe.lua"
 #include "src/slide.lua"
 #include "src/wallbounce.lua"
+#include "src/double_jump.lua"
 #include "src/camera_fix.lua"
 #include "src/feel.lua"
 
@@ -35,6 +36,7 @@ function server.tick(dt)
 		airstrafeTick(p, input, dt)
 		slideTick(p, input, dt)
 		wallbounceTick(p, input, dt)
+		doubleJumpTick(p, input, dt)
 	end
 end
 

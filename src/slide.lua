@@ -3,6 +3,8 @@
 local slideState = {}   -- [playerId] = {timeLeft, dir, normalBuffer}
 local prevCrouch = {}   -- [playerId] = number, for edge detection
 local slideCdLeft = {}  -- [playerId] = seconds until next slide allowed
+local airCrouchTime = {} -- [playerId] = GetTime() when crouch pressed in air
+local AIR_CROUCH_BUFFER = 0.15
 
 function slideTick(playerId, input, dt)
 	local s = slideState[playerId]
@@ -84,11 +86,29 @@ function slideTick(playerId, input, dt)
 	local wasCrouching = (prevCrouch[playerId] or 0) > 0.5
 	prevCrouch[playerId] = crouch
 	local crouchJustPressed = crouch > 0.5 and not wasCrouching
+	local grounded = IsPlayerGrounded(playerId)
 
-	-- Start slide: sprint + crouch press + grounded + moving + cooldown passed
-	if not crouchJustPressed then return end
-	if not input.sprint then return end
-	if not IsPlayerGrounded(playerId) then return end
+	-- Buffer: crouch pressed in air → remember for landing
+	if crouchJustPressed and not grounded then
+		airCrouchTime[playerId] = GetTime()
+	end
+
+	-- Buffered slide: just landed and air-crouch was recent
+	local buffered = false
+	if grounded and not crouchJustPressed and airCrouchTime[playerId] then
+		if (GetTime() - airCrouchTime[playerId]) < AIR_CROUCH_BUFFER and crouch > 0.5 then
+			buffered = true
+			airCrouchTime[playerId] = nil
+		end
+	end
+	if crouchJustPressed and grounded then
+		airCrouchTime[playerId] = nil
+	end
+
+	-- Start slide: effective sprint + crouch press (or buffered) + grounded + moving + cooldown
+	if not crouchJustPressed and not buffered then return end
+	if not isSprintingEffective(playerId, input) then return end
+	if not grounded then return end
 	if (slideCdLeft[playerId] or 0) > 0 then return end
 
 	local v = GetPlayerVelocity(playerId)
@@ -96,15 +116,22 @@ function slideTick(playerId, input, dt)
 	local speed = VecLength(vH)
 	if speed < 3.0 then return end
 
+	local cfg = shared.config
 	local dir = VecNormalize(vH)
+
+	-- Scale impulse and duration by entry speed
+	local impulseActual = math.max(cfg.slide_impulse_min, speed * cfg.slide_speed_factor)
+	local durationActual = cfg.slide_duration_base + speed * cfg.slide_duration_per_speed
+
 	slideState[playerId] = {
-		timeLeft = shared.config.slide_duration,
+		timeLeft = durationActual,
 		dir = dir,
 		normalBuffer = {},
 	}
+	sprintDisableToggle(playerId)
 
 	-- Impulse: add on top of current speed
-	local newSpeed = speed + shared.config.slide_impulse
+	local newSpeed = speed + impulseActual
 	local impulse = VecScale(dir, newSpeed)
 	SetPlayerVelocity(Vec(impulse[1], v[2], impulse[3]), playerId)
 end

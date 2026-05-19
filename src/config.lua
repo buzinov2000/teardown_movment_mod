@@ -4,18 +4,25 @@
 
 local CONFIG_DEFAULTS = {
 	sprint_multiplier    = 1.6,
-	air_wishspeed        = 7.5,
-	air_accel            = 30.0,
-	slide_impulse        = 8.0,
-	slide_duration       = 0.7,
+	sprint_mode          = 2,    -- 0=hold, 1=toggle, 2=always_on
+	air_wishspeed        = 4.0,
+	air_accel            = 20.0,
+	air_max_turn_rate    = 4.0,
+	slide_impulse_min    = 8.0,
+	slide_speed_factor   = 1.2,
+	slide_duration_base  = 0.7,
+	slide_duration_per_speed = 0.04,
 	slide_slope_accel    = 15.0,
 	slide_cooldown       = 0.6,
+	enable_double_jump   = 1,    -- 0=off, 1=on
+	double_jump_force    = 7.0,
+	double_jump_cooldown = 0.1,
 	bounce_force_max     = 6.0,
 	bounce_upward_kick   = 4.5,
 	wall_check_distance  = 1.2,
 	fov_base             = 90.0,
-	fov_sprint           = 97.0,
-	fov_slide            = 104.0,
+	fov_sprint           = 90.0,
+	fov_slide            = 95.0,
 	bounce_shake         = 0.5,
 }
 

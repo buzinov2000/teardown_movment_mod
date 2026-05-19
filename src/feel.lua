@@ -2,10 +2,12 @@
 
 local currentFov = 90
 local lastBounceCount = {}
+local lastDjCount = {}
 
 function feelInit()
 	currentFov = 90
 	lastBounceCount = {}
+	lastDjCount = {}
 end
 
 function feelTick(dt)
@@ -14,7 +16,7 @@ function feelTick(dt)
 
 	-- 1. FOV: sprint = wider, slide = even wider, else = base
 	local targetFov = cfg.fov_base
-	local isSprinting = InputDown("shift") and IsPlayerGrounded(pid)
+	local isSprinting = shared.sprintActive and shared.sprintActive[pid] and IsPlayerGrounded(pid)
 	local isSliding = shared.slideActive and shared.slideActive[pid]
 
 	if isSliding then
@@ -31,5 +33,12 @@ function feelTick(dt)
 	if bc > (lastBounceCount[pid] or 0) then
 		ShakeCamera(cfg.bounce_shake)
 		lastBounceCount[pid] = bc
+	end
+
+	-- 3. Shake on double jump
+	local djc = (shared.doubleJumpEvents and shared.doubleJumpEvents[pid]) or 0
+	if djc > (lastDjCount[pid] or 0) then
+		ShakeCamera(0.2)
+		lastDjCount[pid] = djc
 	end
 end
